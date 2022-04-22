@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>過去飯</title>
+  <link rel="stylesheet" href="css/sample.css">
+</head>
+
+<body>
+  <header>
+    <title>過去飯</title>
+  </header>
+
+  <main>
+    
+    <div class="title">
+      <h1>過去飯</h1>
+      <p class="subtitle">〜日々の体の摂取記録〜</p>
+    </div>
+    <div class="format_box">
+      <div class="format">
+        <input type="date" id="day">
+        <select name="" id="food_time">
+          <option value="-">ー</option>
+          <option value="朝食">朝食</option>
+          <option value="昼食">昼食</option>
+          <option value="夕食">夕食</option>
+        </select>
+        <select name="" id="place">
+          <option value="-">ー</option>
+          <option value="内食">内食</option>
+          <option value="外食">外食</option>
+          <option value="弁当">弁当</option>
+        </select>
+        <select name="" id="foods" >
+          <option value="-">ー</option>
+          <option value="肉">肉</option>
+          <option value="魚">魚</option>
+          <option value="パン">パン</option>
+          <option value="麺類">麺類</option>
+          <option value="ファーストフード">ファーストフード</option>
+          <option value="その他">その他</option>
+        </select>
+        <textarea id="text_area" rows="4" cols="40"></textarea>
+      </div>
+      <div class="button">
+        <button id="save">保存</button>
+        <button id="clear">削除</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+  </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    // select内のvalueを取得
+    // $('#food_time').change(function() {
+    //   const save_food_time = $('#food_time').val();
+    //   console.log(save_food_time);
+    // });
+
+    // $('#place').change(function () {
+    //   const save_place = $('#place').val();
+    //   console.log(save_place);
+    // });
+
+    // $('#foods').change(function () {
+    //   const save_foods = $('#foods').val();
+    //   console.log(save_foods);
+    // });
+
+    //データを保存
+    $('#save').on('click',function() {
+      const text = $('#text_area').val();
+      const save_food_time=$('#food_time').val();
+      const save_place = $('#place').val();
+      const save_foods = $('#foods').val();
+      const save_day =$('#day').val();
+      const data = {
+        day:save_day,
+        food_time:save_food_time,
+        place: save_place,
+        foods: save_foods,
+        text: text,
+      };
+      console.log(data);
+      const jsonData = JSON.stringify(data);
+      console.log(jsonData);
+      localStorage.setItem('memo',jsonData);
+    });
+
+    // データを削除するときの処理
+    $('#clear').on('click', function () {
+      localStorage.removeItem('memo');
+      $('#text_area').val('');
+    });
+
+    // データを取得する際の処理
+    if (localStorage.getItem('memo')) {
+      const jsonData = localStorage.getItem('memo');
+      const data = JSON.parse(jsonData);
+      console.log(data);
+      $('#day').val(data.day);
+      $('#food_time').val(data.food_time);
+      $('#place').val(data.place);
+      $('#foods').val(data.foods);
+      $('#text_area').val(data.text);
+    }
+
+
+
+    // // 今日の日付データを変数hidukeに収納
+    // const hiduke = new Date();
+
+    // // 年・月・曜日を取得する
+    // const year = hiduke.getFullYear();
+    // const month = hiduke.getMonth()+1;
+    // const week = hiduke.getDay();
+    // const day = hiduke.getDate();
+
+    // const yobi = new Array('日','月','火','水','木','金','土');
+    // document.write('西暦'+year+'年'+month+'月'+day+'日'+yobi[week]+'曜日');
+  </script>
+
+</body>
+
+</html>
